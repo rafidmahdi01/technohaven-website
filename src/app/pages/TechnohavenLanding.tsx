@@ -1,12 +1,13 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import gsap from "gsap";
 import { ChevronDown, ArrowUpRight, X, Menu, Send } from "lucide-react";
-// Figma assets commented out - using placeholder URLs instead
-// import logoImg from "figma:asset/45412468b3e248806fb781cf7e6fae6c55c41b86.png";
-// import logo3D from "figma:asset/3fcb9fbe8074a0bdca916e722375540c7c44ef30.png";
-const logoImg = "https://via.placeholder.com/200";
-const logo3D = "/technohaven_logo.png";
+import logoImg from "../../assets/45412468b3e248806fb781cf7e6fae6c55c41b86.png";
+import logo3D from "../../assets/3fcb9fbe8074a0bdca916e722375540c7c44ef30.png";
+import { ShootingStarCursor } from "../components/ShootingStarCursor";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 // ─── Images ───────────────────────────────────────────────────────────────────
 const IMG_CODE = "https://images.unsplash.com/photo-1771931169282-4ebc82b973b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMGNvZGUlMjBhcmNoaXRlY3R1cmUlMjBkYXJrJTIwY2luZW1hdGljJTIwZGlnaXRhbHxlbnwxfHx8fDE3NzQ3MDI4Njd8MA&ixlib=rb-4.1.0&q=80&w=1920";
@@ -137,7 +138,7 @@ function Preloader({ onComplete }: { onComplete: () => void }) {
   return (
     <motion.div
       className="fixed inset-0 z-[300] flex flex-col items-center justify-center"
-      style={{ background: "radial-gradient(ellipse at center, rgba(20,40,80,0.25) 0%, #020204 70%)" }}
+      style={{ background: "radial-gradient(ellipse at center, rgba(13,26,48,0.85) 0%, rgba(2,2,4,0.92) 70%)" }}
       animate={exiting ? { y: "-100%" } : { y: "0%" }}
       transition={{ duration: 0.85, ease: [0.76, 0, 0.24, 1] }}
     >
@@ -274,7 +275,7 @@ function Navbar() {
   return (
     <>
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 200, transition: "all 0.5s cubic-bezier(0.16,1,0.3,1)", ...(scrolled ? NAV_GLASS : { background: "transparent" }) }}>
-        <div style={{ maxWidth: "1440px", margin: "0 auto", padding: "0px 0px 0px 0px", height: "72px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div style={{ maxWidth: "1440px", margin: "0 auto", padding: `0 ${SIDE_PAD}`, height: "72px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <button onClick={() => goTo("Home")} style={{ background: "none", border: "none", cursor: "pointer", textAlign: "left", padding: 0 }}>
             <div className="p-[0px] m-[0px]" style={{ fontSize: "16px", letterSpacing: "0.42em", color: "rgba(240,242,248,0.92)", fontFamily: FONT, fontWeight: 300, textTransform: "uppercase", lineHeight: 1.35 }}>Technohaven</div>
 
@@ -336,15 +337,43 @@ function Navbar() {
 
 // ─── Hero ──────────────────────────────────────────────────────────────────────
 function HeroSection() {
+  const heroRef = useRef<HTMLDivElement>(null);
+  const heroTextRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    if (!heroRef.current || !heroTextRef.current) return;
+    const ctx = gsap.context(() => {
+      // Parallax: hero text moves up slower than scroll
+      gsap.to(heroTextRef.current, {
+        y: -120,
+        ease: "none",
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 0.8,
+        },
+      });
+      // Fade out hero on scroll
+      gsap.to(heroRef.current, {
+        opacity: 0,
+        ease: "none",
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: "60% top",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+    }, heroRef);
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section style={{ position: "relative", height: "100svh", minHeight: "620px", display: "flex", flexDirection: "column", justifyContent: "flex-end", zIndex: 1 }}>
+    <section ref={heroRef} style={{ position: "relative", height: "100svh", minHeight: "620px", display: "flex", flexDirection: "column", justifyContent: "center", zIndex: 1 }}>
       <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at center, rgba(5,7,18,0) 0%, rgba(5,7,18,0.3) 100%)", pointerEvents: "none" }} />
       <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(5,6,12,0.6) 0%, rgba(5,6,12,0.0) 45%)", pointerEvents: "none" }} />
-      <div style={{ position: "relative", maxWidth: "1440px", width: "100%", margin: "0 auto", padding: "0px 122px 100px 122px", marginTop: "-4rem" }}>
-        <motion.p initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.8 }}
-          style={{ ...labelStyle("rgba(100,170,255,0.7)"), marginBottom: "2rem" }}>
-          Est. 2019 — Kuala Lumpur · Dhaka
-        </motion.p>
+      <div ref={heroTextRef} style={{ position: "relative", maxWidth: "1440px", width: "100%", marginLeft: "auto", marginRight: "auto", marginTop: "5vh", padding: `0 ${SIDE_PAD}` }}>
         <motion.h1 initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
           style={{ fontSize: "clamp(2.2rem, 7vw, 7rem)", fontWeight: 100, letterSpacing: "-0.02em", lineHeight: 0.92, color: "#EEEEF2", fontFamily: FONT, textTransform: "uppercase", marginBottom: "0.3rem" }}>
           Bridging Legacy<br />Engineering
@@ -370,10 +399,13 @@ function HeroSection() {
         </motion.div>
       </div>
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }}
-        style={{ position: "absolute", bottom: "2rem", right: "2.5rem", display: "flex", flexDirection: "column", alignItems: "center", gap: "0.6rem" }}>
-        <span style={{ fontSize: "7px", letterSpacing: "0.5em", color: "rgba(240,242,248,0.4)", fontFamily: FONT, textTransform: "uppercase", writingMode: "vertical-rl" }}>Scroll</span>
-        <motion.div animate={{ scaleY: [1, 0.35, 1] }} transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-          style={{ width: "1px", height: "40px", background: "linear-gradient(to bottom, rgba(100,170,255,0.6), transparent)", transformOrigin: "top" }} />
+        onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
+        style={{ position: "absolute", bottom: "2.5rem", left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: "0.75rem", cursor: "pointer" }}>
+        <span style={{ fontSize: "7px", letterSpacing: "0.5em", paddingLeft: "0.5em", color: "rgba(240,242,248,0.4)", fontFamily: FONT, textTransform: "uppercase" }}>Scroll</span>
+        <div style={{ width: "22px", height: "36px", borderRadius: "11px", border: "1.5px solid rgba(240,242,248,0.3)", display: "flex", justifyContent: "center", paddingTop: "7px" }}>
+          <motion.div animate={{ y: [0, 12, 0], opacity: [1, 0.3, 1] }} transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
+            style={{ width: "3px", height: "3px", borderRadius: "50%", background: "rgba(100,170,255,0.8)" }} />
+        </div>
       </motion.div>
     </section>
   );
@@ -383,13 +415,34 @@ function HeroSection() {
 interface StoryPanelProps { id?: string; label: string; number: string; heading: string; body: string; bullets: string[]; image: string; imageLeft: boolean; }
 
 function StoryPanel({ id, label, number, heading, body, bullets, image, imageLeft }: StoryPanelProps) {
+  const panelRef = useRef<HTMLDivElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  useLayoutEffect(() => {
+    if (!panelRef.current || !imgRef.current) return;
+    const ctx = gsap.context(() => {
+      // GSAP parallax on the image — slow vertical shift as you scroll through
+      gsap.fromTo(imgRef.current, { y: -40 }, {
+        y: 40,
+        ease: "none",
+        scrollTrigger: {
+          trigger: panelRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 0.6,
+        },
+      });
+    }, panelRef);
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id={id} style={{ position: "relative", zIndex: 1, minHeight: "100vh", display: "flex", alignItems: "center", padding: "6rem 0", background: "linear-gradient(to bottom, rgba(5,6,12,0) 0%, rgba(5,6,12,0.2) 15%, rgba(5,6,12,0.2) 85%, rgba(5,6,12,0) 100%)" }}>
+    <section ref={panelRef} id={id} style={{ position: "relative", zIndex: 1, minHeight: "100vh", display: "flex", alignItems: "center", padding: "6rem 0", background: "linear-gradient(to bottom, rgba(5,6,12,0) 0%, rgba(5,6,12,0.2) 15%, rgba(5,6,12,0.2) 85%, rgba(5,6,12,0) 100%)" }}>
       <div style={{ maxWidth: "1440px", margin: "0 auto", padding: `0 ${SIDE_PAD}`, width: "100%", display: "flex", gap: "2px" }} className={imageLeft ? "flex-col md:flex-row" : "flex-col md:flex-row-reverse"}>
         <motion.div initial={{ opacity: 0, x: imageLeft ? -30 : 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "-8%" }} transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
           style={{ flex: "0 0 55%", position: "relative", ...GLASS, overflow: "hidden" }} className="min-h-[300px] md:min-h-[480px]">
-          <motion.img src={image} alt={heading} initial={{ scale: 1.07 }} whileInView={{ scale: 1 }} viewport={{ once: true }} transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
-            style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block", opacity: 0.78 }} />
+          <img ref={imgRef} src={image} alt={heading}
+            style={{ width: "100%", height: "calc(100% + 80px)", objectFit: "cover", objectPosition: "center", display: "block", opacity: 0.78, marginTop: "-40px" }} />
           <div style={{ position: "absolute", inset: 0, boxShadow: "inset 0 0 80px rgba(5,6,12,0.5)" }} />
           <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "1px", background: "rgba(255,255,255,0.20)" }} />
           <div style={{ position: "absolute", bottom: "1.5rem", right: "1.5rem", fontSize: "clamp(4rem, 10vw, 7rem)", fontWeight: 100, color: "rgba(255,255,255,0.05)", fontFamily: FONT, lineHeight: 1, letterSpacing: "-0.04em", userSelect: "none" }}>{number}</div>
@@ -451,17 +504,99 @@ function AboutSubSection() {
   );
 }
 
+// ─── GSAP Marquee Divider ──────────────────────────────────────────────────────
+function MarqueeDivider({ text, reverse = false }: { text: string; reverse?: boolean }) {
+  const marqueeRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    if (!marqueeRef.current) return;
+    const ctx = gsap.context(() => {
+      const inner = marqueeRef.current!.querySelector("[data-marquee-inner]") as HTMLElement;
+      if (!inner) return;
+      gsap.fromTo(inner, { xPercent: reverse ? -50 : 0 }, {
+        xPercent: reverse ? 0 : -50,
+        ease: "none",
+        scrollTrigger: {
+          trigger: marqueeRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 0.5,
+        },
+      });
+    }, marqueeRef);
+    return () => ctx.revert();
+  }, [reverse]);
+
+  const repeated = Array(8).fill(text).join(" — ");
+
+  return (
+    <div ref={marqueeRef} style={{ position: "relative", zIndex: 1, overflow: "hidden", padding: "2.5rem 0", borderTop: "1px solid rgba(255,255,255,0.04)", borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
+      <div data-marquee-inner style={{ whiteSpace: "nowrap", display: "inline-block", width: "max-content" }}>
+        <span style={{ fontSize: "clamp(1.2rem, 3vw, 2.5rem)", fontWeight: 100, letterSpacing: "0.15em", color: "rgba(240,242,248,0.06)", fontFamily: FONT, textTransform: "uppercase" }}>
+          {repeated}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+// ─── GSAP Reveal Line ─────────────────────────────────────────────────────────
+function RevealLine() {
+  const lineRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    if (!lineRef.current) return;
+    const ctx = gsap.context(() => {
+      gsap.fromTo(lineRef.current, { scaleX: 0 }, {
+        scaleX: 1,
+        duration: 1.2,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: lineRef.current,
+          start: "top 90%",
+          toggleActions: "play none none none",
+        },
+      });
+    });
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <div ref={lineRef} style={{ position: "relative", zIndex: 1, maxWidth: "1200px", margin: "0 auto", padding: `0 ${SIDE_PAD}`, transformOrigin: "left center" }}>
+      <div style={{ height: "1px", background: "linear-gradient(to right, rgba(100,170,255,0.0), rgba(100,170,255,0.3), rgba(100,170,255,0.0))" }} />
+    </div>
+  );
+}
+
 // ─── Tech Stack Section ────────────────────────────────────────────────────────
 function TechStackSection() {
   const [activeTab, setActiveTab] = useState<string>("Frontend");
   const categories = Object.keys(TECH_STACK);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+
+  useLayoutEffect(() => {
+    if (!headingRef.current) return;
+    const ctx = gsap.context(() => {
+      gsap.fromTo(headingRef.current, { x: -60, opacity: 0 }, {
+        x: 0, opacity: 1,
+        duration: 1.2,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: headingRef.current,
+          start: "top 85%",
+          toggleActions: "play none none none",
+        },
+      });
+    });
+    return () => ctx.revert();
+  }, []);
 
   return (
     <section style={{ position: "relative", zIndex: 1, padding: `7rem ${SIDE_PAD}`, background: "rgba(5,6,12,0.15)" }}>
       <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.9 }} style={{ marginBottom: "4rem" }}>
           <p style={{ ...labelStyle(), marginBottom: "1.5rem" }}>Technology Arsenal</p>
-          <h2 style={{ fontSize: "clamp(2rem, 5vw, 4rem)", fontWeight: 100, letterSpacing: "0.04em", lineHeight: 1, color: "#EEEEF2", fontFamily: FONT, textTransform: "uppercase" }}>
+          <h2 ref={headingRef} style={{ fontSize: "clamp(2rem, 5vw, 4rem)", fontWeight: 100, letterSpacing: "0.04em", lineHeight: 1, color: "#EEEEF2", fontFamily: FONT, textTransform: "uppercase" }}>
             Our Stack
           </h2>
         </motion.div>
@@ -502,17 +637,35 @@ function TechStackSection() {
 // ─── Services Matrix (Tabbed) ──────────────────────────────────────────────────
 function ServicesMatrixSection() {
   const [activeClass, setActiveClass] = useState<1 | 2>(1);
+  const matrixHeadingRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    if (!matrixHeadingRef.current) return;
+    const ctx = gsap.context(() => {
+      gsap.fromTo(matrixHeadingRef.current, { y: 50, opacity: 0, skewY: 2 }, {
+        y: 0, opacity: 1, skewY: 0,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: matrixHeadingRef.current,
+          start: "top 85%",
+          toggleActions: "play none none none",
+        },
+      });
+    });
+    return () => ctx.revert();
+  }, []);
   const data = activeClass === 1 ? CLASS1_SERVICES : CLASS2_SERVICES;
 
   return (
     <section style={{ position: "relative", zIndex: 1, padding: `7rem ${SIDE_PAD}`, background: "rgba(5,6,12,0.15)" }}>
       <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.9 }} style={{ marginBottom: "4rem" }}>
+        <div ref={matrixHeadingRef} style={{ marginBottom: "4rem" }}>
           <p style={{ ...labelStyle(), marginBottom: "1.5rem" }}>The Services Matrix</p>
           <h2 style={{ fontSize: "clamp(2rem, 5vw, 4rem)", fontWeight: 100, letterSpacing: "0.04em", lineHeight: 1, color: "#EEEEF2", fontFamily: FONT, textTransform: "uppercase" }}>
             Dual<br />Modalities
           </h2>
-        </motion.div>
+        </div>
 
         {/* Class Toggle */}
         <div style={{ display: "flex", gap: "0", marginBottom: "3rem" }}>
@@ -563,6 +716,26 @@ function ServicesMatrixSection() {
 // ─── Services Accordion ────────────────────────────────────────────────────────
 function ServicesSection() {
   const [open, setOpen] = useState<number | null>(null);
+  const accordionRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    if (!accordionRef.current) return;
+    const ctx = gsap.context(() => {
+      const items = accordionRef.current!.querySelectorAll("[data-gsap-accordion-item]");
+      gsap.fromTo(items, { opacity: 0, x: -40 }, {
+        opacity: 1, x: 0,
+        duration: 0.7,
+        stagger: 0.08,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: accordionRef.current,
+          start: "top 75%",
+          toggleActions: "play none none none",
+        },
+      });
+    }, accordionRef);
+    return () => ctx.revert();
+  }, []);
 
   return (
     <section id="services" style={{ position: "relative", zIndex: 1, padding: `7rem ${SIDE_PAD}`, background: "rgba(5,6,12,0.18)" }}>
@@ -574,11 +747,10 @@ function ServicesSection() {
           </h2>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          style={{ ...HEAVY_GLASS, padding: "0 0" }}>
+        <div ref={accordionRef} style={{ ...HEAVY_GLASS, padding: "0 0" }}>
           <div style={{ height: "1.5px", background: "linear-gradient(to right, rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.28) 30%, rgba(255,255,255,0.18) 70%, rgba(255,255,255,0.0) 100%)" }} />
           {SERVICES.map((s, i) => (
-            <div key={s.num} style={{ borderBottom: i < SERVICES.length - 1 ? "1px solid rgba(255,255,255,0.055)" : "none" }}>
+            <div key={s.num} data-gsap-accordion-item style={{ borderBottom: i < SERVICES.length - 1 ? "1px solid rgba(255,255,255,0.055)" : "none" }}>
               <button onClick={() => setOpen(open === i ? null : i)}
                 style={{ width: "100%", background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "1.75rem 2.5rem", textAlign: "left", gap: "1.5rem", transition: "background 0.3s" }}
                 onMouseEnter={e => (e.currentTarget.style.background = "rgba(100,170,255,0.03)")}
@@ -615,7 +787,7 @@ function ServicesSection() {
             </div>
           ))}
           <div style={{ height: "1px", background: "linear-gradient(to right, rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.10) 50%, rgba(255,255,255,0.0) 100%)" }} />
-        </motion.div>
+        </div>
       </div>
     </section>
   );
@@ -626,6 +798,27 @@ function CaseStudiesSection() {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(0);
   const total = CASE_STUDIES.length;
+  const caseHeadingRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    if (!caseHeadingRef.current) return;
+    const ctx = gsap.context(() => {
+      const h2 = caseHeadingRef.current!.querySelector("h2");
+      if (h2) {
+        gsap.fromTo(h2, { scale: 0.85, opacity: 0 }, {
+          scale: 1, opacity: 1,
+          duration: 0.8,
+          ease: "back.out(1.4)",
+          scrollTrigger: {
+            trigger: caseHeadingRef.current,
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        });
+      }
+    });
+    return () => ctx.revert();
+  }, []);
 
   const go = (dir: number) => {
     setDirection(dir);
@@ -656,7 +849,7 @@ function CaseStudiesSection() {
       <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
 
         {/* Header */}
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.9 }}
+        <div ref={caseHeadingRef}
           style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: "4rem", flexWrap: "wrap", gap: "1.5rem" }}>
           <div>
             <p style={{ ...labelStyle(), marginBottom: "1.5rem" }}>Selected Work</p>
@@ -684,7 +877,7 @@ function CaseStudiesSection() {
               </button>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Sliding Deck Card */}
         <div style={{ position: "relative", perspective: "1200px" }}>
@@ -816,6 +1009,25 @@ function CaseStudiesSection() {
 function ContactSection() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
+  const contactHeadRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    if (!contactHeadRef.current) return;
+    const ctx = gsap.context(() => {
+      const h2 = contactHeadRef.current!.querySelector("h2");
+      const label = contactHeadRef.current!.querySelector("p");
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: contactHeadRef.current,
+          start: "top 82%",
+          toggleActions: "play none none none",
+        },
+      });
+      if (label) tl.fromTo(label, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" });
+      if (h2) tl.fromTo(h2, { opacity: 0, y: 40, skewY: 3 }, { opacity: 1, y: 0, skewY: 0, duration: 0.9, ease: "power3.out" }, "-=0.3");
+    });
+    return () => ctx.revert();
+  }, []);
 
 
   const inputStyle: React.CSSProperties = {
@@ -825,12 +1037,12 @@ function ContactSection() {
   return (
     <section id="contact" style={{ position: "relative", zIndex: 1, padding: `7rem ${SIDE_PAD}`, background: "rgba(4,5,10,0.18)" }}>
       <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.9 }} style={{ marginBottom: "4rem" }}>
+        <div ref={contactHeadRef} style={{ marginBottom: "4rem" }}>
           <p style={{ ...labelStyle(), marginBottom: "1.5rem" }}>Initiate an Engagement</p>
           <h2 style={{ fontSize: "clamp(2rem, 5vw, 4rem)", fontWeight: 100, letterSpacing: "0.04em", lineHeight: 1, color: "#EEEEF2", fontFamily: FONT, textTransform: "uppercase" }}>
             Let's Build<br />Together.
           </h2>
-        </motion.div>
+        </div>
 
         <div className="flex flex-col lg:flex-row" style={{ gap: "2px" }}>
           {/* Left: Landing Elements */}
@@ -941,12 +1153,12 @@ function FooterSection() {
         style={{ position: "absolute", inset: 0, zIndex: 10, background: "#0a0a0f" }}
       />
       <footer style={{ position: "relative", zIndex: 1, background: "#f5f5f5", color: "#1a1a1a", fontFamily: `'Playfair Display', Georgia, serif` }}>
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", paddingTop: "5rem", paddingBottom: "2.5rem" }}>
-          <h2 style={{ fontSize: "clamp(18px, 2.5vw, 28px)", letterSpacing: "0.55em", fontWeight: 400, color: "#1a1a1a", fontFamily: `'Playfair Display', Georgia, serif`, textTransform: "uppercase", margin: 0 }}>
-            T E C H N O H A V E N
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", paddingTop: "5rem", paddingBottom: "2.5rem", paddingLeft: SIDE_PAD, paddingRight: SIDE_PAD }}>
+          <h2 style={{ fontSize: "clamp(14px, 2.5vw, 28px)", letterSpacing: "0.55em", fontWeight: 400, color: "#1a1a1a", fontFamily: `'Playfair Display', Georgia, serif`, textTransform: "uppercase", margin: 0, whiteSpace: "nowrap" }}>
+            TECHNOHAVEN
           </h2>
         </div>
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "clamp(1.5rem, 4vw, 3.5rem)", paddingBottom: "2.5rem", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "clamp(1.5rem, 4vw, 3.5rem)", paddingBottom: "2.5rem", paddingLeft: SIDE_PAD, paddingRight: SIDE_PAD, flexWrap: "wrap" }}>
           {navLinks.map(l => (
             <button key={l.label}
               onClick={() => { const el = document.getElementById(l.id); el ? el.scrollIntoView({ behavior: "smooth" }) : window.scrollTo({ top: 0, behavior: "smooth" }); }}
@@ -985,12 +1197,15 @@ export default function TechnohavenLanding() {
   const [ready, setReady] = useState(false);
 
   return (
-    <div style={{ background: "transparent", color: "#EEEEF2", fontFamily: FONT, overflowX: "hidden" }}>
+    <>
+      <NetworkCanvas />
+
       <AnimatePresence>
         {!ready && <Preloader onComplete={() => setReady(true)} />}
       </AnimatePresence>
 
-      <NetworkCanvas />
+      <div style={{ background: "transparent", color: "#EEEEF2", fontFamily: FONT, overflowX: "hidden" }}>
+        {ready && <ShootingStarCursor />}
 
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: ready ? 1 : 0 }} transition={{ duration: 0.9, ease: "easeOut" }}>
         <Navbar />
@@ -1023,13 +1238,19 @@ export default function TechnohavenLanding() {
         />
 
         <AboutSubSection />
+        <MarqueeDivider text="Engineering Excellence · Digital Transformation · Future-Proof Architecture" />
         <TechStackSection />
+        <RevealLine />
         <ServicesMatrixSection />
+        <MarqueeDivider text="Project-Based · Product-Based · Enterprise-Grade · Bespoke Solutions" reverse />
         <ServicesSection />
+        <RevealLine />
         <CaseStudiesSection />
+        <RevealLine />
         <ContactSection />
         <FooterSection />
       </motion.div>
     </div>
+    </>
   );
 }

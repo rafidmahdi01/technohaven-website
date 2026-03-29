@@ -74,9 +74,11 @@ export function Header() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <img src="/technohaven_logo.png" alt="Technohaven Malaysia" className="h-10 w-auto" />
-            <span className="text-white font-semibold tracking-wide text-sm hidden sm:inline">
-              TECHNOHAVEN<span className="text-blue-400"> MALAYSIA</span>
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-violet-600 flex items-center justify-center">
+              <Zap size={16} className="text-white" />
+            </div>
+            <span className="text-white font-semibold tracking-wide text-lg">
+              Nexus<span className="text-blue-400">Tech</span>
             </span>
           </Link>
 
