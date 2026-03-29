@@ -26,35 +26,35 @@ const IMG_PMC = "https://images.unsplash.com/photo-1551836022-d5d88e9218df?crop=
 
 // ─── Glass Styles ─────────────────────────────────────────────────────────────
 const GLASS: React.CSSProperties = {
-  background: "rgba(8, 10, 18, 0.28)",
-  backdropFilter: "blur(60px) saturate(180%)",
-  WebkitBackdropFilter: "blur(60px) saturate(180%)",
+  background: "rgba(8, 10, 18, 0.92)",
+  backdropFilter: "blur(100px) saturate(180%)",
+  WebkitBackdropFilter: "blur(100px) saturate(180%)",
   border: "1px solid rgba(255,255,255,0.09)",
   boxShadow:
     "inset 0 1px 0 rgba(255,255,255,0.20), inset 1px 0 0 rgba(255,255,255,0.06), inset -1px 0 0 rgba(255,255,255,0.03), 0 32px 80px rgba(0,0,0,0.55), 0 0 0 0.5px rgba(255,255,255,0.04)",
 };
 
 const HEAVY_GLASS: React.CSSProperties = {
-  background: "rgba(5, 6, 12, 0.35)",
-  backdropFilter: "blur(80px) saturate(200%)",
-  WebkitBackdropFilter: "blur(80px) saturate(200%)",
+  background: "rgba(5, 6, 12, 0.94)",
+  backdropFilter: "blur(120px) saturate(200%)",
+  WebkitBackdropFilter: "blur(120px) saturate(200%)",
   border: "1px solid rgba(255,255,255,0.11)",
   boxShadow:
     "inset 0 1.5px 0 rgba(255,255,255,0.24), inset 0 -1px 0 rgba(255,255,255,0.04), inset 1px 0 0 rgba(255,255,255,0.07), 0 48px 120px rgba(0,0,0,0.70), 0 8px 32px rgba(0,0,0,0.4)",
 };
 
 const NAV_GLASS: React.CSSProperties = {
-  background: "rgba(4, 5, 10, 0.45)",
-  backdropFilter: "blur(40px) saturate(160%)",
-  WebkitBackdropFilter: "blur(40px) saturate(160%)",
+  background: "rgba(4, 5, 10, 0.92)",
+  backdropFilter: "blur(80px) saturate(160%)",
+  WebkitBackdropFilter: "blur(80px) saturate(160%)",
   borderBottom: "1px solid rgba(255,255,255,0.07)",
   boxShadow: "inset 0 -1px 0 rgba(255,255,255,0.04)",
 };
 
 const LIGHT_GLASS: React.CSSProperties = {
-  background: "rgba(12, 14, 24, 0.22)",
-  backdropFilter: "blur(40px) saturate(160%)",
-  WebkitBackdropFilter: "blur(40px) saturate(160%)",
+  background: "rgba(12, 14, 24, 0.88)",
+  backdropFilter: "blur(80px) saturate(160%)",
+  WebkitBackdropFilter: "blur(80px) saturate(160%)",
   border: "1px solid rgba(255,255,255,0.07)",
   boxShadow:
     "inset 0 1px 0 rgba(255,255,255,0.12), 0 16px 48px rgba(0,0,0,0.4)",
@@ -439,7 +439,7 @@ function StoryPanel({ id, label, number, heading, body, bullets, image, imageLef
   }, []);
 
   return (
-    <section ref={panelRef} id={id} style={{ position: "relative", zIndex: 1, minHeight: "100vh", display: "flex", alignItems: "center", padding: "6rem 0", background: "linear-gradient(to bottom, rgba(5,6,12,0) 0%, rgba(5,6,12,0.2) 15%, rgba(5,6,12,0.2) 85%, rgba(5,6,12,0) 100%)" }}>
+    <section ref={panelRef} id={id} style={{ position: "relative", zIndex: 1, minHeight: "100vh", display: "flex", alignItems: "center", padding: "6rem 0", background: "linear-gradient(to bottom, rgba(5,6,12,0.7) 0%, rgba(5,6,12,0.88) 15%, rgba(5,6,12,0.88) 85%, rgba(5,6,12,0.7) 100%)" }}>
       <div style={{ maxWidth: "1440px", margin: "0 auto", padding: `0 ${SIDE_PAD}`, width: "100%", display: "flex", gap: "2px" }} className={imageLeft ? "flex-col md:flex-row" : "flex-col md:flex-row-reverse"}>
         <motion.div initial={{ opacity: 0, x: imageLeft ? -30 : 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "-8%" }} transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
           style={{ flex: "0 0 55%", position: "relative", ...GLASS, overflow: "hidden" }} className="min-h-[300px] md:min-h-[480px]">
@@ -479,7 +479,7 @@ function AboutSubSection() {
   ];
 
   return (
-    <section style={{ position: "relative", zIndex: 1, padding: `5rem ${SIDE_PAD}` }}>
+    <section style={{ position: "relative", zIndex: 1, padding: `5rem ${SIDE_PAD}`, background: "rgba(5,6,12,0.88)" }}>
       <div style={{ maxWidth: "900px", margin: "0 auto" }}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.9 }}
           style={{ ...HEAVY_GLASS, overflow: "hidden" }}>
@@ -660,7 +660,7 @@ function ServicesMatrixSection() {
   const data = activeClass === 1 ? CLASS1_SERVICES : CLASS2_SERVICES;
 
   return (
-    <section style={{ position: "relative", zIndex: 1, padding: `7rem ${SIDE_PAD}`, background: "rgba(5,6,12,0.15)" }}>
+    <section style={{ position: "relative", zIndex: 1, padding: `7rem ${SIDE_PAD}`, background: "rgba(5,6,12,0.88)" }}>
       <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
         <div ref={matrixHeadingRef} style={{ marginBottom: "4rem" }}>
           <p style={{ ...labelStyle(), marginBottom: "1.5rem" }}>The Services Matrix</p>
@@ -740,7 +740,7 @@ function ServicesSection() {
   }, []);
 
   return (
-    <section id="services" style={{ position: "relative", zIndex: 1, padding: `7rem ${SIDE_PAD}`, background: "rgba(5,6,12,0.18)" }}>
+    <section id="services" style={{ position: "relative", zIndex: 1, padding: `7rem ${SIDE_PAD}`, background: "rgba(5,6,12,0.88)" }}>
       <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.9 }} style={{ marginBottom: "5rem" }}>
           <p style={{ ...labelStyle(), marginBottom: "1.5rem" }}>Services & Methodology</p>
@@ -847,7 +847,7 @@ function CaseStudiesSection() {
   };
 
   return (
-    <section id="work" style={{ position: "relative", zIndex: 1, padding: `7rem ${SIDE_PAD}`, background: "rgba(5,6,12,0.15)", overflow: "hidden" }}>
+    <section id="work" style={{ position: "relative", zIndex: 1, padding: `7rem ${SIDE_PAD}`, background: "rgba(5,6,12,0.88)", overflow: "hidden" }}>
       <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
 
         {/* Header */}
@@ -1037,7 +1037,7 @@ function ContactSection() {
   };
 
   return (
-    <section id="contact" style={{ position: "relative", zIndex: 1, padding: `7rem ${SIDE_PAD}`, background: "rgba(4,5,10,0.18)" }}>
+    <section id="contact" style={{ position: "relative", zIndex: 1, padding: `7rem ${SIDE_PAD}`, background: "rgba(4,5,10,0.88)" }}>
       <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
         <div ref={contactHeadRef} style={{ marginBottom: "4rem" }}>
           <p style={{ ...labelStyle(), marginBottom: "1.5rem" }}>Initiate an Engagement</p>
