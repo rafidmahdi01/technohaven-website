@@ -22,6 +22,7 @@ const IMG_PROPTECH = "https://images.unsplash.com/photo-1748764720733-3bb4c52ab6
 const IMG_DIGITAL_TWIN = "https://images.unsplash.com/photo-1573153178631-49e3aa9e018b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkaWdpdGFsJTIwdHdpbiUyMGluZHVzdHJpYWwlMjBwbGF0Zm9ybSUyMGRhcmt8ZW58MXx8fHwxNzc0NzEyOTI1fDA&ixlib=rb-4.1.0&q=80&w=1080";
 const IMG_ECOM = "https://images.unsplash.com/photo-1569398371172-f268f66a193b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlY29tbWVyY2UlMjBsdXh1cnklMjBtb2JpbGUlMjBhcHAlMjBkYXJrfGVufDF8fHx8MTc3NDcxMjkyNXww&ixlib=rb-4.1.0&q=80&w=1080";
 const IMG_CLOUD = "https://images.unsplash.com/photo-1646361425122-88ca02b2515c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjbG91ZCUyMG1pZ3JhdGlvbiUyMGVudGVycHJpc2UlMjBkYXJrJTIwbW9vZHl8ZW58MXx8fHwxNzc0NzEyOTI1fDA&ixlib=rb-4.1.0&q=80&w=1080";
+const IMG_PMC = "https://images.unsplash.com/photo-1551836022-d5d88e9218df?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080";
 
 // ─── Glass Styles ─────────────────────────────────────────────────────────────
 const GLASS: React.CSSProperties = {
@@ -96,6 +97,7 @@ const CLASS2_SERVICES = [
 ];
 
 const CASE_STUDIES = [
+  { title: "IT Services Under PMC / PMO", category: "PMC / PMO", image: IMG_PMC, desc: "Full-spectrum project governance for large-scale IT procurement and deployment, covering BPR/BRS/SRS definition, tender and bid management, vendor onboarding, deployment supervision, UAT/OAT quality assurance, and AMC SLA planning. Proven delivery across mission-critical programs valued up to USD110 million.", tags: ["PMC", "PMO", "UAT/OAT"], stats: { metric: "USD110M", label: "Project Value" } },
   { title: "Enterprise Digital Transformation", category: "Digital Strategy", image: IMG_DIGITAL_TWIN, desc: "End-to-end digital overhaul for a multinational conglomerate — migrating 23 legacy systems into a unified cloud-native architecture with real-time analytics, reducing operational overhead by 47%.", tags: ["Cloud Migration", "System Integration", "Analytics"], stats: { metric: "47%", label: "Cost Reduction" } },
   { title: "Luxury E-Commerce Platform", category: "Creative & Digital", image: IMG_ECOM, desc: "Bespoke headless commerce platform for a premium lifestyle brand — featuring AI-driven personalization, sub-200ms page loads, and a conversion rate that tripled within the first quarter.", tags: ["Next.js", "Headless CMS", "AI Personalization"], stats: { metric: "3×", label: "Conversion Lift" } },
   { title: "PropTech Virtual Showroom", category: "Real Estate Tech", image: IMG_PROPTECH, desc: "Immersive 3D virtual property tours with digital twin integration for a Kuala Lumpur luxury development — enabling remote buyers to explore, customize, and commit entirely online.", tags: ["Three.js", "Digital Twin", "WebGL"], stats: { metric: "92%", label: "Remote Pre-Sales" } },
