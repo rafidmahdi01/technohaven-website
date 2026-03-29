@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router";
-import { Menu, X, ChevronDown, Zap } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
+import logo from "../../assets/45412468b3e248806fb781cf7e6fae6c55c41b86.png";
 
 const navItems = [
   {
@@ -74,11 +75,9 @@ export function Header() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-violet-600 flex items-center justify-center">
-              <Zap size={16} className="text-white" />
-            </div>
+            <img src={logo} alt="Technohaven Malaysia" className="w-10 h-10 rounded-lg" />
             <span className="text-white font-semibold tracking-wide text-lg">
-              Nexus<span className="text-blue-400">Tech</span>
+              TECHNOHAVEN<span className="text-blue-400"> MALAYSIA</span>
             </span>
           </Link>
 
