@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import logo3D from "../../assets/3fcb9fbe8074a0bdca916e722375540c7c44ef30.png";
+import logo3D from "../../assets/technohaven_logo.jpg";
 
 interface Particle {
   x: number;
@@ -97,7 +97,7 @@ export function ShootingStarCursor() {
       // Draw logo centered, ghostly
       if (logoReady) {
         ctx.save();
-        ctx.globalAlpha = 0.1;
+        ctx.globalAlpha = 0.2;
         const aspect = logoImg.width / logoImg.height;
         const w = logoSize * aspect;
         const h = logoSize;

@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ChevronDown, ArrowUpRight, X, Menu, Send } from "lucide-react";
-import logoImg from "../../assets/45412468b3e248806fb781cf7e6fae6c55c41b86.png";
-import logo3D from "../../assets/3fcb9fbe8074a0bdca916e722375540c7c44ef30.png";
+import logoImg from "../../assets/technohaven_logo.jpg";
+import logo3D from "../../assets/technohaven_logo.jpg";
+import preloaderImg from "../../assets/technohaven_logo01.jpg";
 import { ShootingStarCursor } from "../components/ShootingStarCursor";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -148,16 +149,14 @@ function Preloader({ onComplete }: { onComplete: () => void }) {
   return (
     <motion.div
       className="fixed inset-0 z-[300] flex flex-col items-center justify-center"
-      style={{ background: "radial-gradient(ellipse at center, rgba(13,26,48,0.85) 0%, rgba(2,2,4,0.92) 70%)" }}
+      style={{ backgroundImage: `url(${preloaderImg})`, backgroundSize: "80%", backgroundPosition: "center", backgroundRepeat: "no-repeat", opacity: 0.8 }}
       animate={exiting ? { y: "-100%" } : { y: "0%" }}
       transition={{ duration: 0.85, ease: [0.76, 0, 0.24, 1] }}
     >
+      <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at center, rgba(13,26,48,0.55) 0%, rgba(2,2,4,0.82) 70%)", pointerEvents: "none" }} />
       <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2, duration: 0.5 }}
         style={{ fontSize: "9px", letterSpacing: "0.5em", color: "rgba(255,255,255,0.25)", fontFamily: FONT, textTransform: "uppercase", position: "absolute", top: "2.5rem" }}
       >Technohaven</motion.p>
-      <motion.img src={logo3D} alt="Technohaven" initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 0.85, scale: 1 }} transition={{ delay: 0.1, duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-        style={{ width: "clamp(160px, 22vw, 300px)", objectFit: "contain", filter: "drop-shadow(0 0 60px rgba(60,120,220,0.3))" }}
-      />
       <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4, duration: 0.6 }}
         style={{ position: "absolute", bottom: "3rem", fontSize: "10px", letterSpacing: "0.3em", color: "rgba(255,255,255,0.2)", fontFamily: FONT, fontWeight: 300 }}
       >Loading...{count}%completed</motion.p>
