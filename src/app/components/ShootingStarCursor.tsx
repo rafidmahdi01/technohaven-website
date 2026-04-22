@@ -95,15 +95,7 @@ export function ShootingStarCursor() {
       const now = performance.now() * 0.001;
 
       // Draw logo centered, ghostly
-      if (logoReady) {
-        ctx.save();
-        ctx.globalAlpha = 0.2;
-        const aspect = logoImg.width / logoImg.height;
-        const w = logoSize * aspect;
-        const h = logoSize;
-        ctx.drawImage(logoImg, cx - w / 2, cy - h / 2, w, h);
-        ctx.restore();
-      }
+      // Commented out - logo removed from background
 
       // Ambient orbiting stars
       for (const s of stars) {

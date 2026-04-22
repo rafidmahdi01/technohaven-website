@@ -14,8 +14,8 @@ gsap.registerPlugin(ScrollTrigger);
 const IMG_CODE = "https://images.unsplash.com/photo-1771931169282-4ebc82b973b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMGNvZGUlMjBhcmNoaXRlY3R1cmUlMjBkYXJrJTIwY2luZW1hdGljJTIwZGlnaXRhbHxlbnwxfHx8fDE3NzQ3MDI4Njd8MA&ixlib=rb-4.1.0&q=80&w=1920";
 const IMG_NETWORK = "https://images.unsplash.com/photo-1659738943718-16e431260fc2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzeXN0ZW0lMjBpbnRlZ3JhdGlvbiUyMG5ldHdvcmslMjBub2RlcyUyMGRhcmslMjBtaW5pbWFsfGVufDF8fHx8MTc3NDcwMjg2OHww&ixlib=rb-4.1.0&q=80&w=1920";
 const IMG_INFRA = "https://images.unsplash.com/photo-1569482112573-a525a0986fa5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbnRlcnByaXNlJTIwc2VydmVyJTIwc2NhbGluZyUyMGluZnJhc3RydWN0dXJlJTIwZGFyayUyMG1vb2R5fGVufDF8fHx8MTc3NDcwMjg2OHww&ixlib=rb-4.1.0&q=80&w=1920";
-const IMG_SERVER = "https://images.unsplash.com/photo-1680992046626-418f7e910589?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkYXJrJTIwbW9vZHklMjBzZXJ2ZXIlMjByb29tJTIwaW5mcmFzdHJ1Y3R1cmV8ZW58MXx8fHwxNzc0NzAzNjgyfDA&ixlib=rb-4.1.0&q=80&w=1080";
-const IMG_KL = "https://images.unsplash.com/photo-1630983410779-88aba3aac0ce?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxLdWFsYSUyMEx1bXB1ciUyMHNreWxpbmUlMjBuaWdodCUyMGRhcmslMjBjaW5lbWF0aWN8ZW58MXx8fHwxNzc0NzAzNjgyfDA&ixlib=rb-4.1.0&q=80&w=1080";
+const IMG_SERVER = "/src/assets/technohaven_dhaka.png";
+const IMG_KL = "/src/assets/technohaven_logo.jpg";
 const IMG_CYBER = "https://images.unsplash.com/photo-1719255417989-b6858e87359e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjeWJlcnNlY3VyaXR5JTIwZGFyayUyMGhhY2tlciUyMHRlcm1pbmFsfGVufDF8fHx8MTc3NDcwMzY4M3ww&ixlib=rb-4.1.0&q=80&w=1080";
 const IMG_TEAM = "https://images.unsplash.com/photo-1758520144667-3041caeff3c1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBvZmZpY2UlMjB0ZWFtJTIwY29sbGFib3JhdGlvbiUyMGRhcmt8ZW58MXx8fHwxNzc0NTk5MDEyfDA&ixlib=rb-4.1.0&q=80&w=1080";
 const IMG_DATA = "https://images.unsplash.com/photo-1762279389006-43963a0cee55?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMGRhdGElMjB2aXN1YWxpemF0aW9uJTIwZGFyayUyMGJsdWV8ZW58MXx8fHwxNzc0NjQzMzIzfDA&ixlib=rb-4.1.0&q=80&w=1080";
@@ -451,7 +451,7 @@ function StoryPanel({ id, label, number, heading, body, bullets, image, imageLef
         <motion.div initial={{ opacity: 0, x: imageLeft ? -30 : 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "-8%" }} transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
           style={{ flex: "0 0 55%", position: "relative", ...GLASS, overflow: "hidden" }} className="min-h-[300px] md:min-h-[480px]">
           <img ref={imgRef} src={image} alt={heading}
-            style={{ width: "100%", height: "calc(100% + 80px)", objectFit: "cover", objectPosition: "center", display: "block", opacity: 0.78, marginTop: "-40px" }} />
+            style={{ width: "100%", height: "calc(100% + 80px)", objectFit: "contain", objectPosition: "center", display: "block", opacity: 0.78, marginTop: "-40px" }} />
           <div style={{ position: "absolute", inset: 0, boxShadow: "inset 0 0 80px rgba(5,6,12,0.5)" }} />
           <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "1px", background: "rgba(255,255,255,0.20)" }} />
           <div style={{ position: "absolute", bottom: "1.5rem", right: "1.5rem", fontSize: "clamp(4rem, 10vw, 7rem)", fontWeight: 100, color: "rgba(255,255,255,0.05)", fontFamily: FONT, lineHeight: 1, letterSpacing: "-0.04em", userSelect: "none" }}>{number}</div>
