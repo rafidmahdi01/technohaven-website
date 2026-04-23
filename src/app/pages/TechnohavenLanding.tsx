@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { ChevronDown, ArrowUpRight, X, Menu, Send } from "lucide-react";
+import { ChevronDown, ArrowUpRight, X, Menu, Send, ShieldCheck, KeyRound, Network } from "lucide-react";
 import logoImg from "../../assets/technohaven_logo.jpg";
 import logo3D from "../../assets/technohaven_logo.jpg";
 import preloaderImg from "../../assets/technohaven_logo01.jpg";
@@ -28,6 +28,7 @@ const IMG_PMC = "https://images.unsplash.com/photo-1551836022-d5d88e9218df?crop=
 const IMG_EFLOW = "https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3b3JrZmxvdyUyMGF1dG9tYXRpb24lMjBvZmZpY2V8ZW58MXx8fHwxNzc0NzE0ODg3fDA&ixlib=rb-4.1.0&q=80&w=1080";
 const IMG_IT_SYSTEMS = "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9qZWN0JTIwbWFuYWdlbWVudCUyMGl0fGVufDF8fHx8MTc3NDcxNTQxN3ww&ixlib=rb-4.1.0&q=80&w=1080";
 const IMG_VATPROMPT = "https://images.unsplash.com/photo-1554224155-6726b3ff858f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080";
+const IMG_BRIDGE = "/src/assets/bridge.png";
 
 // ─── Glass Styles ─────────────────────────────────────────────────────────────
 const GLASS: React.CSSProperties = {
@@ -117,13 +118,61 @@ const CASE_STUDIES = [
   { title: "Secure Remote Work Infrastructure", category: "Infrastructure", image: IMG_SERVER, desc: "Enterprise VDI and secure remote work architecture for 4,000+ employees — zero-trust network access, endpoint management, and encrypted collaboration across Malaysia, Bangladesh, and Singapore.", tags: ["VDI", "Zero-Trust", "Endpoint Mgmt"], stats: { metric: "4K+", label: "Users Secured" } },
 ];
 
-const TECH_STACK = {
-  Frontend: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Three.js", "Motion"],
-  Backend: ["Node.js", "Python", "Go", "Rust", "GraphQL", "gRPC"],
-  Cloud: ["AWS", "Google Cloud", "Azure", "Terraform", "Kubernetes", "Docker"],
-  Data: ["PostgreSQL", "MongoDB", "Redis", "Snowflake", "Apache Kafka", "Elasticsearch"],
-  AI: ["OpenAI", "LangChain", "PyTorch", "TensorFlow", "Hugging Face", "MLflow"],
-  Security: ["Vault", "OAuth 2.0", "SAML", "Cloudflare", "CrowdStrike", "Snyk"],
+const DEVICON_W = (name: string, variant = "original") =>
+  `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${name}/${name}-${variant}.svg`;
+const SI_W = (slug: string) => `https://cdn.simpleicons.org/${slug}/ffffff`;
+
+type Tech = { name: string; iconUrl?: string; Fallback?: React.ComponentType<{ size?: number }> };
+
+const TECH_STACK: Record<string, Tech[]> = {
+  Frontend: [
+    { name: "React", iconUrl: SI_W("react") },
+    { name: "Next.js", iconUrl: SI_W("nextdotjs") },
+    { name: "TypeScript", iconUrl: SI_W("typescript") },
+    { name: "Tailwind CSS", iconUrl: SI_W("tailwindcss") },
+    { name: "Three.js", iconUrl: SI_W("threedotjs") },
+    { name: "Motion", iconUrl: SI_W("framer") },
+  ],
+  Backend: [
+    { name: "Node.js", iconUrl: SI_W("nodedotjs") },
+    { name: "Python", iconUrl: SI_W("python") },
+    { name: "Go", iconUrl: SI_W("go") },
+    { name: "Rust", iconUrl: SI_W("rust") },
+    { name: "GraphQL", iconUrl: SI_W("graphql") },
+    { name: "gRPC", Fallback: Network },
+  ],
+  Cloud: [
+    { name: "AWS", iconUrl: DEVICON_W("amazonwebservices", "plain-wordmark") },
+    { name: "Google Cloud", iconUrl: SI_W("googlecloud") },
+    { name: "Azure", iconUrl: DEVICON_W("azure", "plain") },
+    { name: "Terraform", iconUrl: SI_W("terraform") },
+    { name: "Kubernetes", iconUrl: SI_W("kubernetes") },
+    { name: "Docker", iconUrl: SI_W("docker") },
+  ],
+  Data: [
+    { name: "PostgreSQL", iconUrl: SI_W("postgresql") },
+    { name: "MongoDB", iconUrl: SI_W("mongodb") },
+    { name: "Redis", iconUrl: SI_W("redis") },
+    { name: "Snowflake", iconUrl: SI_W("snowflake") },
+    { name: "Apache Kafka", iconUrl: SI_W("apachekafka") },
+    { name: "Elasticsearch", iconUrl: SI_W("elasticsearch") },
+  ],
+  AI: [
+    { name: "Gemini", iconUrl: SI_W("googlegemini") },
+    { name: "Claude", iconUrl: SI_W("anthropic") },
+    { name: "PyTorch", iconUrl: SI_W("pytorch") },
+    { name: "TensorFlow", iconUrl: SI_W("tensorflow") },
+    { name: "Hugging Face", iconUrl: SI_W("huggingface") },
+    { name: "MLflow", iconUrl: SI_W("mlflow") },
+  ],
+  Security: [
+    { name: "Vault", iconUrl: SI_W("vault") },
+    { name: "OAuth 2.0", Fallback: KeyRound },
+    { name: "SAML", Fallback: ShieldCheck },
+    { name: "Cloudflare", iconUrl: SI_W("cloudflare") },
+    { name: "CrowdStrike", Fallback: ShieldCheck },
+    { name: "Snyk", iconUrl: SI_W("snyk") },
+  ],
 };
 
 
@@ -630,8 +679,19 @@ function TechStackSection() {
               <motion.div key={activeTab} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.25 }}
                 style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: "1rem" }}>
                 {TECH_STACK[activeTab as keyof typeof TECH_STACK].map(tech => (
-                  <div key={tech} style={{ ...LIGHT_GLASS, padding: "1.2rem 1rem", textAlign: "center" }}>
-                    <span style={{ fontSize: "11px", letterSpacing: "0.08em", color: "rgba(240,242,248,0.55)", fontFamily: FONT, fontWeight: 300 }}>{tech}</span>
+                  <div key={tech.name} style={{ ...LIGHT_GLASS, padding: "1.2rem 1rem", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "0.7rem" }}>
+                    {tech.iconUrl ? (
+                      <img
+                        src={tech.iconUrl}
+                        alt={tech.name}
+                        style={{ width: "28px", height: "28px", objectFit: "contain", opacity: 0.9, filter: "brightness(0) invert(1)" }}
+                      />
+                    ) : tech.Fallback ? (
+                      <div style={{ width: "28px", height: "28px", display: "flex", alignItems: "center", justifyContent: "center", color: "rgba(255,255,255,0.9)" }}>
+                        <tech.Fallback size={26} />
+                      </div>
+                    ) : null}
+                    <span style={{ fontSize: "11px", letterSpacing: "0.08em", color: "rgba(240,242,248,0.55)", fontFamily: FONT, fontWeight: 300 }}>{tech.name}</span>
                   </div>
                 ))}
               </motion.div>
@@ -1243,7 +1303,7 @@ export default function TechnohavenLanding() {
           heading={"Flawless\nIntegration"}
           body="Malaysia provides premium market access and commercial agility. Dhaka provides the technological gravity and engineering depth. Together — a singular, unified force delivering complete digital transformation without compromise."
           bullets={["Unified Delivery Pipeline", "Cross-Hub Quality Assurance", "24/7 Follow-the-Sun Support", "Cost-Optimized Excellence"]}
-          image={IMG_TEAM} imageLeft={false}
+          image={IMG_BRIDGE} imageLeft={false}
         />
 
         <AboutSubSection />
