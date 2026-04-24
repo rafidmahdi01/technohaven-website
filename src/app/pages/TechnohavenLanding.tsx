@@ -4,6 +4,9 @@ import { ChevronDown, ArrowUpRight, X, Menu, Send, ShieldCheck, KeyRound, Networ
 import logoImg from "../../assets/technohaven_logo.jpg";
 import logo3D from "../../assets/technohaven_logo.jpg";
 import preloaderImg from "../../assets/technohaven_logo01.jpg";
+import dhakaImg from "../../assets/technohaven_dhaka.png";
+import bridgeImg from "../../assets/bridge.png";
+import klImg from "../../assets/technohaven_logo.jpg";
 import { ShootingStarCursor } from "../components/ShootingStarCursor";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -14,8 +17,8 @@ gsap.registerPlugin(ScrollTrigger);
 const IMG_CODE = "https://images.unsplash.com/photo-1771931169282-4ebc82b973b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMGNvZGUlMjBhcmNoaXRlY3R1cmUlMjBkYXJrJTIwY2luZW1hdGljJTIwZGlnaXRhbHxlbnwxfHx8fDE3NzQ3MDI4Njd8MA&ixlib=rb-4.1.0&q=80&w=1920";
 const IMG_NETWORK = "https://images.unsplash.com/photo-1659738943718-16e431260fc2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzeXN0ZW0lMjBpbnRlZ3JhdGlvbiUyMG5ldHdvcmslMjBub2RlcyUyMGRhcmslMjBtaW5pbWFsfGVufDF8fHx8MTc3NDcwMjg2OHww&ixlib=rb-4.1.0&q=80&w=1920";
 const IMG_INFRA = "https://images.unsplash.com/photo-1569482112573-a525a0986fa5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbnRlcnByaXNlJTIwc2VydmVyJTIwc2NhbGluZyUyMGluZnJhc3RydWN0dXJlJTIwZGFyayUyMG1vb2R5fGVufDF8fHx8MTc3NDcwMjg2OHww&ixlib=rb-4.1.0&q=80&w=1920";
-const IMG_SERVER = "/src/assets/technohaven_dhaka.png";
-const IMG_KL = "/src/assets/technohaven_logo.jpg";
+const IMG_SERVER = dhakaImg;
+const IMG_KL = klImg;
 const IMG_CYBER = "https://images.unsplash.com/photo-1719255417989-b6858e87359e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjeWJlcnNlY3VyaXR5JTIwZGFyayUyMGhhY2tlciUyMHRlcm1pbmFsfGVufDF8fHx8MTc3NDcwMzY4M3ww&ixlib=rb-4.1.0&q=80&w=1080";
 const IMG_TEAM = "https://images.unsplash.com/photo-1758520144667-3041caeff3c1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBvZmZpY2UlMjB0ZWFtJTIwY29sbGFib3JhdGlvbiUyMGRhcmt8ZW58MXx8fHwxNzc0NTk5MDEyfDA&ixlib=rb-4.1.0&q=80&w=1080";
 const IMG_DATA = "https://images.unsplash.com/photo-1762279389006-43963a0cee55?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMGRhdGElMjB2aXN1YWxpemF0aW9uJTIwZGFyayUyMGJsdWV8ZW58MXx8fHwxNzc0NjQzMzIzfDA&ixlib=rb-4.1.0&q=80&w=1080";
@@ -28,7 +31,7 @@ const IMG_PMC = "https://images.unsplash.com/photo-1551836022-d5d88e9218df?crop=
 const IMG_EFLOW = "https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3b3JrZmxvdyUyMGF1dG9tYXRpb24lMjBvZmZpY2V8ZW58MXx8fHwxNzc0NzE0ODg3fDA&ixlib=rb-4.1.0&q=80&w=1080";
 const IMG_IT_SYSTEMS = "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9qZWN0JTIwbWFuYWdlbWVudCUyMGl0fGVufDF8fHx8MTc3NDcxNTQxN3ww&ixlib=rb-4.1.0&q=80&w=1080";
 const IMG_VATPROMPT = "https://images.unsplash.com/photo-1554224155-6726b3ff858f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080";
-const IMG_BRIDGE = "/src/assets/bridge.png";
+const IMG_BRIDGE = bridgeImg;
 
 // ─── Glass Styles ─────────────────────────────────────────────────────────────
 const GLASS: React.CSSProperties = {
