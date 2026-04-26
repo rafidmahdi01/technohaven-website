@@ -1175,8 +1175,8 @@ function ContactSection() {
               <p style={{ ...labelStyle(), marginBottom: "1.25rem", fontSize: "8px" }}>Global Locations</p>
               <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
                 {[
-                  { city: "Kuala Lumpur", detail: "Level 23, Menara TH · Jalan Sultan Ismail" },
-                  { city: "Dhaka", detail: "Gulshan Avenue · Dhaka 1212" },
+                  { city: "Kuala Lumpur", detail: "No. 36A, 1st Floor, Jalan Bidara 2/5A, Taman Bidara Selayang, Batu Caves, Selangor 68100, Malaysia" },
+                  { city: "Dhaka", detail: "Seleena Bhaban, House #169 (6th Floor), Road #03, Mohakhali DOHS, Dhaka 1206, Bangladesh" },
                 ].map(loc => (
                   <div key={loc.city}>
                     <span style={{ fontSize: "11px", color: "rgba(240,242,248,0.5)", fontFamily: FONT, fontWeight: 300 }}>{loc.city}</span>

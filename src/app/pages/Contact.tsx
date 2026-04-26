@@ -3,28 +3,20 @@ import { MapPin, Phone, Mail, Clock, Send, CheckCircle, MessageSquare, Headphone
 
 const locations = [
   {
-    city: "Singapore (HQ)",
-    address: "123 Tech Avenue, #08-01 Innovation Tower, Tanjong Pagar, Singapore 018960",
-    phone: "+65 6123 4567",
-    email: "sg@nexustech.sg",
-    hours: "Mon–Fri, 9:00 AM – 6:00 PM SGT",
-    flag: "🇸🇬",
-  },
-  {
     city: "Kuala Lumpur",
-    address: "Level 28, Menara Etiqa, 3 Jalan Pinang, Kuala Lumpur 50450, Malaysia",
+    address: "No. 36A, 1st Floor, Jalan Bidara 2/5A, Taman Bidara Selayang, Batu Caves, Selangor 68100, Malaysia",
     phone: "+60 3 8888 9999",
-    email: "kl@nexustech.sg",
+    email: "kl@technohaven.com",
     hours: "Mon–Fri, 9:00 AM – 6:00 PM MYT",
     flag: "🇲🇾",
   },
   {
-    city: "Bangkok",
-    address: "31F, One Bangkok Tower, Wireless Road, Pathumwan, Bangkok 10330, Thailand",
-    phone: "+66 2 123 4567",
-    email: "bkk@nexustech.sg",
-    hours: "Mon–Fri, 9:00 AM – 6:00 PM ICT",
-    flag: "🇹🇭",
+    city: "Dhaka",
+    address: "Seleena Bhaban, House #169 (6th Floor), Road #03, Mohakhali DOHS, Dhaka 1206, Bangladesh",
+    phone: "+880 1234 5678",
+    email: "dhaka@technohaven.com",
+    hours: "Sun–Thu, 9:00 AM – 6:00 PM BST",
+    flag: "🇧🇩",
   },
 ];
 
